@@ -1,0 +1,898 @@
+/* Rustic Theme Variables */
+.container {
+  --bg-color: #f4f1ea;
+  --surface-color: #e8e4db;
+  --text-primary: #4a4539;
+  --text-secondary: #8c7b64;
+  --border-color: #d1cdc0;
+  --accent-color: #8c7b64; /* Muted brown */
+  --highlight-color: #e3823c; /* Rustic orange */
+  --player-bar-bg: #fffbf5;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  
+  font-family: 'Georgia', 'Times New Roman', serif; /* Rustic feel */
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* Scoped Theme Overrides */
+.container[data-theme='dark'] {
+  --bg-color: #1a1918;
+  --surface-color: #262523;
+  --text-primary: #dcd3c5;
+  --text-secondary: #90887e;
+  --border-color: #3a3834;
+  --accent-color: #a69580;
+  --highlight-color: #d97836;
+  --player-bar-bg: #232220;
+  --hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+.container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  font-size: 14px; /* Reduced from default */
+  line-height: 1.5;
+}
+
+/* UI Components */
+.themeToggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.themeToggle:hover {
+  background: var(--bg-color);
+}
+
+
+/* Layout */
+.mainLayout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  position: relative;
+  width: 240px; /* Reduced from 280px */
+  background-color: var(--surface-color);
+  border-right: 1px solid var(--border-color);
+  padding: 1rem 1rem 1rem; /* Tightened padding */
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+}
+
+.content {
+  flex: 1;
+  position: relative;
+  overflow-y: auto;
+  padding: 1.5rem; /* Reduced from 2rem */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grid View */
+.albumGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Reduced from 200px */
+  gap: 1.5rem;
+}
+
+.albumCard {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.75rem;
+  text-align: left; /* Modern Left Aligned */
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.albumCard h3 {
+  font-size: 0.95rem;
+  margin: 0.5rem 0 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.albumCard p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.albumArtPlaceholder {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: var(--surface-color);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+/* Playback Interface */
+/* Playback Interface (Slider) */
+.playerView {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  overflow: hidden; /* Hide the off-screen page */
+  display: flex;
+  flex-direction: column;
+}
+
+.sliderContainer {
+  display: flex;
+  width: 200%; /* Two pages side by side */ 
+  height: 100%;
+}
+
+
+.slidePage {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Page 1: Disk */
+.diskContainer {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin-bottom: 2rem;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.05) 31%, transparent 31%),
+    radial-gradient(circle at center, transparent 35%, rgba(0,0,0,0.05) 36%, transparent 36%),
+    radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.05) 41%, transparent 41%),
+    radial-gradient(circle at center, transparent 45%, rgba(0,0,0,0.05) 46%, transparent 46%),
+    radial-gradient(circle at center, #1a1a1a, #000);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 8px solid #2a2a2a;
+  animation: rotate 20s linear infinite;
+  animation-play-state: paused;
+}
+
+.diskContainer.playing {
+  animation-play-state: running;
+}
+
+.diskArt {
+  width: 80px;
+  height: 80px;
+  background-color: var(--highlight-color);
+  border-radius: 50%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.3), 0 0 0 3px #000;
+  z-index: 2;
+  position: relative;
+}
+
+.diskArt::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--bg-color);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.tonearm {
+  position: absolute;
+  top: -50px;
+  right: 10px;
+  width: 100px;
+  height: 140px;
+  z-index: 5;
+  transform-origin: 24px 24px;
+  transform: rotate(-55deg);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.tonearm.playing {
+  transform: rotate(-22deg);
+}
+
+.tonearm::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 32px;
+  height: 32px;
+  background: radial-gradient(circle, #888, #444);
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  z-index: 6;
+}
+
+.tonearmBody {
+  width: 6px;
+  height: 140px;
+  background: linear-gradient(to right, #777, #bbb, #777);
+  border-radius: 3px;
+  position: absolute;
+  left: 21px;
+  top: 24px;
+}
+
+.tonearmHead {
+  position: absolute;
+  bottom: 0;
+  left: -10px;
+  width: 30px;
+  height: 20px;
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+.simpleLyrics {
+  text-align: center;
+  height: 60px;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+  width: 100%;
+  max-width: 450px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.fullLyricsContainer {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  text-align: center;
+  padding: 1rem 0;
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+}
+
+.fullLyricsLine {
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.fullLyricsLine.active {
+  color: var(--highlight-color);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.pageIndicators {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.pageDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  transition: all 0.3s;
+}
+
+.pageDot.active {
+  background-color: var(--highlight-color);
+}
+
+/* Bottom Player Bar */
+.playerBar {
+  position: relative;
+  height: 64px;
+  background-color: var(--player-bar-bg);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.trackInfo {
+  display: flex;
+  align-items: center;
+  width: 220px;
+}
+
+.miniArt {
+  width: 42px;
+  height: 42px;
+  background-color: var(--surface-color);
+  border-radius: 6px;
+  margin-right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+.miniArt:hover {
+  transform: scale(1.05);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.controlBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.controlBtn:hover {
+  background: var(--hover-bg);
+  color: var(--highlight-color);
+}
+
+.playBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: var(--text-primary);
+  color: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.playBtn:hover {
+  background-color: var(--highlight-color);
+  transform: scale(1.05);
+}
+
+.progressBar {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: var(--highlight-color);
+  width: 0%;
+  position: relative;
+}
+
+.progressFill::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  width: 10px;
+  height: 10px;
+  background-color: var(--highlight-color);
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.progressBar:hover .progressFill::after {
+  transform: translateY(-50%) scale(1);
+}
+
+/* Permanent Playlist Right Sidebar */
+.playlistSidebar {
+  width: 260px;
+  background-color: var(--surface-color);
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow-y: auto;
+  z-index: 5;
+}
+
+.playlistSidebar h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.playlistItem {
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+  transition: all 0.2s;
+}
+
+.playlistItem:hover {
+  background: var(--hover-bg);
+}
+
+.playlistItem.active {
+  color: var(--highlight-color);
+  background: var(--hover-bg);
+  font-weight: 600;
+}
+
+/* Album Detail View */
+.albumDetailView {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  color: var(--highlight-color);
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.albumHeader {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  align-items: flex-end;
+}
+
+.largeAlbumArt {
+  width: 180px;
+  height: 180px;
+  background-color: var(--surface-color);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.albumTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem 0;
+}
+
+.albumArtist {
+  font-size: 1rem;
+  color: var(--highlight-color);
+  margin-bottom: 1rem;
+}
+
+.headerPlayBtn {
+  background-color: var(--highlight-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.trackRow {
+  display: grid;
+  grid-template-columns: 36px 1fr 1fr 60px;
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.trackRow:hover {
+  background: var(--hover-bg);
+}
+
+.trackName {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.trackArtist, .trackTime, .trackIndex {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.trackTime {
+  text-align: right;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Marquee */
+.marqueeContainer {
+  overflow: hidden;
+  white-space: nowrap;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marqueeText {
+  display: inline-block;
+  animation: scrollText 12s linear infinite;
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(10%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Drive Picker Modal */
+.drivePickerModal {
+  background: var(--surface-color);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 560px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.drivePickerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.drivePickerHeader h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.closeButton:hover {
+  color: var(--text-primary);
+}
+
+/* Sign In State */
+.driveSignIn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.driveSignInIcon {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.driveSignIn p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.signInButton {
+  background: var(--highlight-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.signInButton:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* User Info Bar */
+.driveUserInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-color);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.userAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.signOutButton {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.signOutButton:hover {
+  background: var(--hover-bg);
+  color: var(--text-primary);
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+}
+
+.breadcrumbItem {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.breadcrumbItem:hover {
+  background: var(--hover-bg);
+  color: var(--highlight-color);
+}
+
+.breadcrumbItem:last-child {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.breadcrumbSeparator {
+  color: var(--border-color);
+}
+
+/* File List */
+.driveFileList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.driveFileItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.driveFileItem:hover {
+  background: var(--hover-bg);
+}
+
+.fileIcon {
+  font-size: 1.25rem;
+  width: 28px;
+  text-align: center;
+}
+
+.fileName {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.fileSize {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Loading & Error States */
+.loadingState,
+.errorState,
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--highlight-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.errorState button {
+  margin-top: 1rem;
+  background: var(--highlight-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Empty Library State */
+.emptyLibrary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.emptyLibraryIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.emptyLibrary h2 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.emptyLibrary p {
+  margin: 0 0 1.5rem 0;
+}
+
+.connectDriveButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--highlight-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.connectDriveButton:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
