@@ -317,6 +317,17 @@
   font-weight: 700;
 }
 
+.fullLyricsContainer::-webkit-scrollbar,
+.simpleLyrics::-webkit-scrollbar {
+  display: none;
+}
+
+.fullLyricsContainer,
+.simpleLyrics {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .pageIndicators {
   display: flex;
   gap: 0.6rem;
@@ -396,6 +407,12 @@
 .controlBtn:hover {
   background: var(--hover-bg);
   color: var(--highlight-color);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  display: block;
 }
 
 .playBtn {

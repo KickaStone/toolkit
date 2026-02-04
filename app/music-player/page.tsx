@@ -31,13 +31,13 @@ export default function MusicPlayerPage() {
 
     // Audio Hook
     const {
-        audioRef, isPlaying, progress, duration,
+        audioRef, isPlaying, progress, duration, lyrics: audioLyrics,
         playTrack: audioPlay, togglePlay, seek,
         startDrag, stopDrag, updateDragProgress
     } = useAudioPlayer();
 
     // Lyrics Hook
-    const { lyrics, currentLyricIndex } = useLyrics(currentTrack?.lrc, progress);
+    const { lyrics, currentLyricIndex } = useLyrics(audioLyrics || currentTrack?.lrc, progress);
 
     // Handlers
     const handlePlayTrack = useCallback((album: Album, track: Track) => {

@@ -83,12 +83,22 @@ export const DriveFilePicker: React.FC<DriveFilePickerProps> = ({
         if (file.isFolder) {
             handleFolderClick(file);
         } else if (isAudioFile(file.mimeType)) {
+            const baseName = file.name.replace(/\.[^/.]+$/, '');
+
+            // Find a matching LRC file in the current folder
+            const lrcFile = files.find(f => {
+                const fBaseName = f.name.replace(/\.[^/.]+$/, '');
+                const fExtension = f.name.split('.').pop()?.toLowerCase();
+                return fBaseName === baseName && fExtension === 'lrc';
+            });
+
             // Create a track and album for this file
             const track: Track = {
                 id: `drive-${file.id}`,
-                title: file.name.replace(/\.[^/.]+$/, ''), // Remove extension
+                title: baseName,
                 artist: 'Google Drive',
                 src: getDriveStreamUrl(file.id),
+                lrcSource: lrcFile?.id,
                 source: 'drive',
             };
 
@@ -98,13 +108,23 @@ export const DriveFilePicker: React.FC<DriveFilePickerProps> = ({
                 artist: 'Google Drive',
                 tracks: files
                     .filter(f => isAudioFile(f.mimeType))
-                    .map(f => ({
-                        id: `drive-${f.id}`,
-                        title: f.name.replace(/\.[^/.]+$/, ''),
-                        artist: 'Google Drive',
-                        src: getDriveStreamUrl(f.id),
-                        source: 'drive' as const,
-                    })),
+                    .map(f => {
+                        const fBaseName = f.name.replace(/\.[^/.]+$/, '');
+                        const fLrcFile = files.find(l => {
+                            const lBaseName = l.name.replace(/\.[^/.]+$/, '');
+                            const lExtension = l.name.split('.').pop()?.toLowerCase();
+                            return lBaseName === fBaseName && lExtension === 'lrc';
+                        });
+
+                        return {
+                            id: `drive-${f.id}`,
+                            title: fBaseName,
+                            artist: 'Google Drive',
+                            src: getDriveStreamUrl(f.id),
+                            lrcSource: fLrcFile?.id,
+                            source: 'drive' as const,
+                        };
+                    }),
             };
 
             onPlayTrack(album, track);

@@ -4,6 +4,7 @@ export type Track = {
     artist: string;
     src: string;
     lrc?: string;
+    lrcSource?: string; // e.g. Google Drive file ID
     duration?: string;
     source?: 'local' | 'drive';
 };

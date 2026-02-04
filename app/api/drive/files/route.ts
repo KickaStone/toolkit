@@ -42,9 +42,9 @@ export async function GET(request: NextRequest) {
     const folderId = searchParams.get('folderId') || 'root';
     const audioOnly = searchParams.get('audioOnly') !== 'false';
 
-    // Build query: get folders and audio files in the specified folder
+    // Build query: get folders, audio files, and lyric files (.lrc) in the specified folder
     const mimeQuery = audioOnly
-        ? `(mimeType='application/vnd.google-apps.folder' or ${AUDIO_MIME_TYPES.map(m => `mimeType='${m}'`).join(' or ')})`
+        ? `(mimeType='application/vnd.google-apps.folder' or ${AUDIO_MIME_TYPES.map(m => `mimeType='${m}'`).join(' or ')} or name contains '.lrc')`
         : '';
 
     const query = [

@@ -68,7 +68,9 @@ export async function GET(
         // Return the stream with appropriate headers
         const headers = new Headers();
         headers.set('Content-Type', metadata.mimeType);
-        headers.set('Content-Disposition', `inline; filename="${metadata.name}"`);
+        // Encode filename for non-ASCII characters (RFC 5987)
+        const encodedFilename = encodeURIComponent(metadata.name).replace(/['()]/g, escape);
+        headers.set('Content-Disposition', `inline; filename*=UTF-8''${encodedFilename}`);
         if (metadata.size) {
             headers.set('Content-Length', metadata.size);
         }
